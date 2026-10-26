@@ -27,11 +27,17 @@ function renderFilters() {
 function renderCards() {
   const term = search.value.trim().toLowerCase();
   const shown = flavours.filter((flavour) => (activeGroup === 'All' || flavour.group === activeGroup) && flavour.name.toLowerCase().includes(term));
-  grid.innerHTML = shown.map((flavour) => `
+  grid.innerHTML = shown.map((flavour) => {
+    const tile = flavour.id - 1;
+    const column = tile % 5;
+    const row = Math.floor(tile / 5);
+    return `
     <article class="flavour-card${select.value === String(flavour.id) ? ' selected' : ''}" data-id="${flavour.id}" tabindex="0" role="button" aria-label="Select ${flavour.name}">
-      <div class="card-top"><span class="flavour-swatch" style="--swatch:${flavour.swatch}" aria-hidden="true"></span><span class="flavour-number">NO. ${String(flavour.id).padStart(2, '0')}</span></div>
-      <div><h3>${flavour.name}</h3><p>Whole loaf · RM15</p></div><span class="card-link">Choose this flavour <span aria-hidden="true">↗</span></span>
-    </article>`).join('');
+      <div class="flavour-art" style="--tile-x:${column * 25}%;--tile-y:${row * (100 / 3)}%" aria-hidden="true"></div>
+      <div class="card-top"><span class="flavour-number">NO. ${String(flavour.id).padStart(2, '0')}</span><span class="flavour-price">RM15</span></div>
+      <div><h3>${flavour.name}</h3><p>Whole loaf</p></div><span class="card-link">Choose this flavour <span aria-hidden="true">↗</span></span>
+    </article>`;
+  }).join('');
   document.querySelector('#empty-state').hidden = shown.length > 0;
 }
 
@@ -95,4 +101,3 @@ renderFilters();
 renderSelect();
 renderCards();
 updateTotal();
-
