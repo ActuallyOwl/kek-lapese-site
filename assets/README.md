@@ -1,0 +1,1 @@
+This folder contains the user-supplied Kek Lapese logo and banner, plus generated illustrative cake thumbnails for the catalogue. Cake art is illustrative, not product photography.
